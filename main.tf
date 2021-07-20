@@ -11,7 +11,7 @@ resource "ibm_is_vpc" "vnf_vpc" {
 //security group
 resource "ibm_is_security_group" "vnf_security_group" {
   name           = "vnf-sg"
-  vpc            = ibm_is_vpc.vnf_vpc.default_security_group
+  vpc            = ibm_is_vpc.vnf_vpc.id
 }
 
 //security group rule to allow ssh all for management
