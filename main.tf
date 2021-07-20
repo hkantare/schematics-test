@@ -1,6 +1,4 @@
 provider "ibm" {
-  #ibmcloud_api_key      = var.api_key
-  generation            = var.generation
   region                = "us-east"
   ibmcloud_timeout      = 300
 }
