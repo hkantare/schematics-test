@@ -1,9 +1,3 @@
-resource "null_resource" "test" {
-    provisioner "local-exec" {
-    command = "echo $IC_IAM_TOKEN ********** $IC_IAM_REFRESH_TOKEN"
-    }
-}
-
 provider "ibm" {
   #ibmcloud_api_key      = var.api_key
   generation            = var.generation
@@ -11,21 +5,15 @@ provider "ibm" {
   ibmcloud_timeout      = 300
 }
 
-variable "generation" {
-  default     = 2
-  description = "The VPC Generation to target. Valid values are 2 or 1."
-}
-
-variable "TF_VERSION" {
- default = "0.12"
- description = "terraform engine version to be used in schematics"
+//security group
+resource "ibm_is_vpc" "vnf_vpc" {
+  name           = "vnf-vpc"
 }
 
 //security group
 resource "ibm_is_security_group" "vnf_security_group" {
-  name           = "mysggrp"
-  vpc            = "r014-25616dea-4d43-45f8-b2ca-74d871154406"
-}
+  name           = "vnf-sg"
+  vpc            = ibm_is_vpc.vnf_vpc.default_security_group
 
 //security group rule to allow ssh all for management
 resource "ibm_is_security_group_rule" "vnf_sg_allow_ssh" {
